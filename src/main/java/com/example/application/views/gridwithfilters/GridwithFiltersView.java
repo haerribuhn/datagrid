@@ -88,10 +88,10 @@ public class GridwithFiltersView extends Div {
 
         private final TextField name = new TextField("Name");
         private final TextField phone = new TextField("Phone");
-        private final DatePicker startDate = new DatePicker("Date of Birth");
-        private final DatePicker endDate = new DatePicker();
-        private final MultiSelectComboBox<String> occupations = new MultiSelectComboBox<>("Occupation");
-        private final CheckboxGroup<String> roles = new CheckboxGroup<>("Role");
+//        private final DatePicker startDate = new DatePicker("Date of Birth");
+//        private final DatePicker endDate = new DatePicker();
+//        private final MultiSelectComboBox<String> occupations = new MultiSelectComboBox<>("Occupation");
+//        private final CheckboxGroup<String> roles = new CheckboxGroup<>("Role");
 
         public Filters(Runnable onSearch) {
 
@@ -99,23 +99,23 @@ public class GridwithFiltersView extends Div {
             addClassName("filter-layout");
             addClassNames(LumoUtility.Padding.Horizontal.LARGE, LumoUtility.Padding.Vertical.MEDIUM,
                     LumoUtility.BoxSizing.BORDER);
-            name.setPlaceholder("First or last name");
+            name.setPlaceholder("Titel oder Beschreibung");
 
-            occupations.setItems("Insurance Clerk", "Mortarman", "Beer Coil Cleaner", "Scale Attendant");
-
-            roles.setItems("Worker", "Supervisor", "Manager", "External");
-            roles.addClassName("double-width");
+//            occupations.setItems("Insurance Clerk", "Mortarman", "Beer Coil Cleaner", "Scale Attendant");
+//
+//            roles.setItems("Worker", "Supervisor", "Manager", "External");
+//            roles.addClassName("double-width");
 
             // Action buttons
             Button resetBtn = new Button("Reset");
             resetBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
             resetBtn.addClickListener(e -> {
                 name.clear();
-                phone.clear();
-                startDate.clear();
-                endDate.clear();
-                occupations.clear();
-                roles.clear();
+//                phone.clear();
+//                startDate.clear();
+//                endDate.clear();
+//                occupations.clear();
+//                roles.clear();
                 onSearch.run();
             });
             Button searchBtn = new Button("Search");
@@ -126,9 +126,10 @@ public class GridwithFiltersView extends Div {
             actions.addClassName(LumoUtility.Gap.SMALL);
             actions.addClassName("actions");
 
-            add(name, phone, createDateRangeFilter(), occupations, roles, actions);
+            add(name, /*phone, createDateRangeFilter(), occupations, roles,*/ actions);
         }
 
+/*
         private Component createDateRangeFilter() {
             startDate.setPlaceholder("From");
 
@@ -144,6 +145,7 @@ public class GridwithFiltersView extends Div {
 
             return dateRangeComponent;
         }
+*/
 
         @Override
         public Predicate toPredicate(Root<SamplePerson> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -157,6 +159,7 @@ public class GridwithFiltersView extends Div {
                         lowerCaseFilter + "%");
                 predicates.add(criteriaBuilder.or(firstNameMatch, lastNameMatch));
             }
+/*
             if (!phone.isEmpty()) {
                 String databaseColumn = "phone";
                 String ignore = "- ()";
@@ -195,6 +198,7 @@ public class GridwithFiltersView extends Div {
                 }
                 predicates.add(criteriaBuilder.or(rolePredicates.toArray(Predicate[]::new)));
             }
+*/
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         }
 
@@ -220,13 +224,13 @@ public class GridwithFiltersView extends Div {
 
     private Component createGrid() {
         grid = new Grid<>(SamplePerson.class, false);
-        grid.addColumn("firstName").setAutoWidth(true);
-        grid.addColumn("lastName").setAutoWidth(true);
-        grid.addColumn("email").setAutoWidth(true);
-        grid.addColumn("phone").setAutoWidth(true);
-        grid.addColumn("dateOfBirth").setAutoWidth(true);
-        grid.addColumn("occupation").setAutoWidth(true);
-        grid.addColumn("role").setAutoWidth(true);
+        grid.addColumn("firstName").setHeader("titel").setAutoWidth(true);
+        grid.addColumn("lastName").setHeader("Beschreibung").setAutoWidth(true);
+//        grid.addColumn("email").setAutoWidth(true);
+//        grid.addColumn("phone").setAutoWidth(true);
+//        grid.addColumn("dateOfBirth").setAutoWidth(true);
+//        grid.addColumn("occupation").setAutoWidth(true);
+//        grid.addColumn("role").setAutoWidth(true);
 
         grid.setItems(query -> samplePersonService.list(
                 PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)),
