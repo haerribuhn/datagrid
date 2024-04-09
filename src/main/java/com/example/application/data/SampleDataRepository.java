@@ -4,9 +4,9 @@ package com.example.application.data;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface SamplePersonRepository
+public interface SampleDataRepository
         extends
-            JpaRepository<SamplePerson, Long>,
-            JpaSpecificationExecutor<SamplePerson> {
+            JpaRepository<SampleData, Long>,
+            JpaSpecificationExecutor<SampleData> {
 
 }

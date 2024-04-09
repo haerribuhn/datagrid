@@ -1,7 +1,7 @@
 package com.example.application.services;
 
-import com.example.application.data.SamplePerson;
-import com.example.application.data.SamplePersonRepository;
+import com.example.application.data.SampleData;
+import com.example.application.data.SampleDataRepository;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,19 +9,19 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SamplePersonService {
+public class SampleDataService {
 
-    private final SamplePersonRepository repository;
+    private final SampleDataRepository repository;
 
-    public SamplePersonService(SamplePersonRepository repository) {
+    public SampleDataService(SampleDataRepository repository) {
         this.repository = repository;
     }
 
-    public Optional<SamplePerson> get(Long id) {
+    public Optional<SampleData> get(Long id) {
         return repository.findById(id);
     }
 
-    public SamplePerson update(SamplePerson entity) {
+    public SampleData update(SampleData entity) {
         return repository.save(entity);
     }
 
@@ -29,11 +29,11 @@ public class SamplePersonService {
         repository.deleteById(id);
     }
 
-    public Page<SamplePerson> list(Pageable pageable) {
+    public Page<SampleData> list(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Page<SamplePerson> list(Pageable pageable, Specification<SamplePerson> filter) {
+    public Page<SampleData> list(Pageable pageable, Specification<SampleData> filter) {
         return repository.findAll(filter, pageable);
     }
 

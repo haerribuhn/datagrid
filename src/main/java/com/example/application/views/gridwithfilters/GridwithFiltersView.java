@@ -1,23 +1,17 @@
 package com.example.application.views.gridwithfilters;
 
-import com.example.application.data.SamplePerson;
-import com.example.application.services.SamplePersonService;
+import com.example.application.data.SampleData;
+import com.example.application.services.SampleDataService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
-import com.vaadin.flow.component.combobox.MultiSelectComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -36,18 +30,18 @@ import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
-@PageTitle("Grid with Filters")
+@PageTitle("DataGrid mit Filter")
 @Route(value = "grid-with-filters", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 public class GridwithFiltersView extends Div {
 
-    private Grid<SamplePerson> grid;
+    private Grid<SampleData> grid;
 
     private Filters filters;
-    private final SamplePersonService samplePersonService;
+    private final SampleDataService samplePersonService;
 
-    public GridwithFiltersView(SamplePersonService SamplePersonService) {
+    public GridwithFiltersView(SampleDataService SamplePersonService) {
         this.samplePersonService = SamplePersonService;
         setSizeFull();
         addClassNames("gridwith-filters-view");
@@ -84,7 +78,7 @@ public class GridwithFiltersView extends Div {
         return mobileFilters;
     }
 
-    public static class Filters extends Div implements Specification<SamplePerson> {
+    public static class Filters extends Div implements Specification<SampleData> {
 
         private final TextField name = new TextField("Name");
         private final TextField phone = new TextField("Phone");
@@ -148,14 +142,14 @@ public class GridwithFiltersView extends Div {
 */
 
         @Override
-        public Predicate toPredicate(Root<SamplePerson> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+        public Predicate toPredicate(Root<SampleData> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
             List<Predicate> predicates = new ArrayList<>();
 
             if (!name.isEmpty()) {
                 String lowerCaseFilter = name.getValue().toLowerCase();
-                Predicate firstNameMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")),
+                Predicate firstNameMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("titel")),
                         lowerCaseFilter + "%");
-                Predicate lastNameMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")),
+                Predicate lastNameMatch = criteriaBuilder.like(criteriaBuilder.lower(root.get("beschreibung")),
                         lowerCaseFilter + "%");
                 predicates.add(criteriaBuilder.or(firstNameMatch, lastNameMatch));
             }
@@ -223,9 +217,9 @@ public class GridwithFiltersView extends Div {
     }
 
     private Component createGrid() {
-        grid = new Grid<>(SamplePerson.class, false);
-        grid.addColumn("firstName").setHeader("titel").setAutoWidth(true);
-        grid.addColumn("lastName").setHeader("Beschreibung").setAutoWidth(true);
+        grid = new Grid<>(SampleData.class, false);
+        grid.addColumn("titel").setHeader("Titel").setAutoWidth(true);
+        grid.addColumn("beschreibung").setHeader("Beschreibung").setAutoWidth(true);
 //        grid.addColumn("email").setAutoWidth(true);
 //        grid.addColumn("phone").setAutoWidth(true);
 //        grid.addColumn("dateOfBirth").setAutoWidth(true);
